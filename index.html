@@ -1,3 +1,392 @@
-<html>
-  <h1>hi</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Novosta — Coming Soon</title>
+
+  <!-- SEO + Social -->
+  <meta name="description" content="Novosta — a transparent, fairly priced mobile network. $15/mo unlimited for early adopters. eSIM + BYOD." />
+  <meta property="og:title" content="Novosta — Coming Soon" />
+  <meta property="og:description" content="$15/mo unlimited for early adopters. eSIM + BYOD." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://novosta.dev/" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/favicon.ico" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; position: relative;
+    }
+
+    /* Animated background */
+    .background {
+      position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(-45deg, #000, #111, #000, #0a0a0a);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+    .floating-shape { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.02); animation: float 15s ease-in-out infinite; }
+    .shape-1 { width: 300px; height: 300px; top: 20%; left: 10%; animation-delay: 0s; }
+    .shape-2 { width: 200px; height: 200px; top: 60%; right: 15%; animation-delay: 5s; }
+    .shape-3 { width: 150px; height: 150px; bottom: 20%; left: 60%; animation-delay: 10s; }
+
+    @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 33%{transform:translateY(-30px) rotate(5deg)} 66%{transform:translateY(20px) rotate(-3deg)} }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* Layout */
+    .container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; }
+    .content { text-align: center; max-width: 600px; width: 100%; }
+
+    /* Typography */
+    .headline { font-size: clamp(3rem, 8vw, 5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.5rem; opacity: 0; animation: fadeInUp 1s ease-out .2s forwards; }
+    .subheadline { font-size: clamp(1.1rem, 3vw, 1.4rem); line-height: 1.6; color: #ccc; margin-bottom: 3rem; opacity: 0; animation: fadeInUp 1s ease-out .4s forwards; }
+    .price-highlight { color: #fff; font-weight: 600; }
+
+    /* Glass panel */
+    .glass-panel {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 2.5rem; margin-bottom: 3rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      opacity: 0; animation: fadeInUp 1s ease-out .6s forwards;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .glass-panel:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+    /* Mailchimp embed — restyled to match */
+    #mc_embed_signup { background: transparent; font: 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; width: 100%; color: #fff; }
+    #mc_embed_signup h2 { display:none; }
+    .indicates-required { display:none; }
+    .mc-field-group { display: flex; gap: 1rem; margin: 0 0 1rem 0; align-items: center; }
+    .mc-field-group label { display:none; }
+    #mce-EMAIL {
+      flex: 1; padding: 1rem 1.5rem; color:#fff; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; font-size: 1rem; transition: all .3s ease;
+    }
+    #mce-EMAIL::placeholder { color:#999; }
+    #mce-EMAIL:focus { outline: none; border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 2px #fff2; }
+    #mc-embedded-subscribe {
+      padding: 1rem 2rem; background:#fff; color:#000; border: none; border-radius: 12px;
+      font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .3s ease; white-space: nowrap;
+    }
+    #mc-embedded-subscribe:hover { background:#f0f0f0; transform: translateY(-1px); }
+    #mc-embedded-subscribe:active { transform: translateY(0); }
+    #mce-error-response, #mce-success-response { margin-top: .5rem; font-size: .95rem; }
+    #mce-error-response { color:#fca5a5; }
+    #mce-success-response { color:#4ade80; }
+
+    .fineprint { color:#9ca3af; font-size:.9rem; margin-top:.5rem; text-align:left; }
+
+    /* Progress + features */
+    .progress { margin-top: 1rem; }
+    .progress-item { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px solid rgba(255,255,255,0.1); font-size:.95rem; }
+    .progress-item:last-child { border-bottom:none; }
+    .progress-label { color:#999; font-weight:500; }
+    .progress-value { color:#fff; font-weight:600; }
+    .status-live { color:#4ade80; }
+    .features { margin-bottom: 2rem; opacity: 0; animation: fadeInUp 1s ease-out .8s forwards; }
+    .features-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap:1rem; list-style:none; font-size:.95rem; color:#ccc; }
+    .features-list li { display:flex; align-items:center; gap:.5rem; }
+    .features-list li::before { content:"•"; color:#666; font-weight:bold; }
+
+    .footer { font-size:.85rem; color:#666; opacity:0; animation: fadeIn 1s ease-out 1s forwards; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .glass-panel { padding: 2rem 1.5rem; }
+      .mc-field-group { flex-direction: column; align-items: stretch; }
+      #mc-embedded-subscribe { width: 100%; }
+      .features-list { grid-template-columns: 1fr; gap: .75rem; }
+      .progress-item { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    }
+    @media (max-width: 480px) { .glass-panel { padding: 1.5rem 1rem; border-radius: 16px; } }
+    @media (prefers-reduced-motion: reduce) { *{animation:none!important; transition:none!important;} }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <div class="container">
+    <div class="content" role="main">
+      <h1 class="headline">Novosta is coming.</h1>
+      <p class="subheadline">
+        A transparent, fairly priced mobile network for everyone.
+        <span class="price-highlight">$15/mo unlimited for early adopters.</span>
+      </p>
+
+      <div class="glass-panel" aria-live="polite">
+        <!-- MAILCHIMP EMBED (your endpoint + hidden fields) -->
+        <div id="mc_embed_signup">
+          <form action="https://dev.us19.list-manage.com/subscribe/post?u=d4979e2f9f0a77dddf570603b&amp;id=f82b0aa4f0&amp;f_id=00d4c2e1f0"
+                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+              <div class="mc-field-group">
+                <label for="mce-EMAIL" class="sr-only">Email address</label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"
+                       placeholder="Enter your email" required aria-label="Email address" autocomplete="email" inputmode="email">
+                <input type="submit" value="Join the Waitlist" name="subscribe" id="mc-embedded-subscribe" class="button" aria-label="Join the Novosta waitlist">
+              </div>
+
+              <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+              </div>
+
+              <!-- honeypot -->
+              <div aria-hidden="true" style="position:absolute; left:-5000px;">
+                <input type="text" name="b_d4979e2f9f0a77dddf570603b_f82b0aa4f0" tabindex="-1" value="">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <p class="fineprint">We’ll only email launch updates. Unsubscribe anytime.</p>
+
+        <div class="progress" aria-label="Project status">
+          <div class="progress-item">
+            <span class="progress-label">Current Stage:</span>
+            <span class="progress-value status-live">Early access testing live</span>
+          </div>
+          <div class="progress-item">
+            <span class="progress-label">Next:</span>
+            <span class="progress-value">Public launch after entity setup</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <ul class="features-list" aria-label="Key features">
+          <li>$15/mo unlimited plan*</li>
+          <li>eSIM + BYOD ready</li>
+          <li>No hidden fees</li>
+          <li>Local, independent operator</li>
+        </ul>
+      </div>
+
+      <footer class="footer">
+        *Fair-use applies. © <span id="year"></span> Novosta.
+      </footer>
+    </div>
+  </div>
+
+  <!-- Mailchimp validation script (required for inline success/error handling) -->
+  <script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Hide default Mailchimp H2/labels from screen readers if present
+    const srOnly = document.createElement('style');
+    srOnly.innerHTML = ".sr-only{position:absolute!important;left:-9999px!important}";
+    document.head.appendChild(srOnly);
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Novosta — Coming Soon</title>
+
+  <!-- SEO + Social -->
+  <meta name="description" content="Novosta — a transparent, fairly priced mobile network. $15/mo unlimited for early adopters. eSIM + BYOD." />
+  <meta property="og:title" content="Novosta — Coming Soon" />
+  <meta property="og:description" content="$15/mo unlimited for early adopters. eSIM + BYOD." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://novosta.dev/" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="/favicon.ico" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; position: relative;
+    }
+
+    /* Animated background */
+    .background {
+      position: fixed; inset: 0; z-index: -1;
+      background: linear-gradient(-45deg, #000, #111, #000, #0a0a0a);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+    .floating-shape { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.02); animation: float 15s ease-in-out infinite; }
+    .shape-1 { width: 300px; height: 300px; top: 20%; left: 10%; animation-delay: 0s; }
+    .shape-2 { width: 200px; height: 200px; top: 60%; right: 15%; animation-delay: 5s; }
+    .shape-3 { width: 150px; height: 150px; bottom: 20%; left: 60%; animation-delay: 10s; }
+
+    @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 33%{transform:translateY(-30px) rotate(5deg)} 66%{transform:translateY(20px) rotate(-3deg)} }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* Layout */
+    .container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; }
+    .content { text-align: center; max-width: 600px; width: 100%; }
+
+    /* Typography */
+    .headline { font-size: clamp(3rem, 8vw, 5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.5rem; opacity: 0; animation: fadeInUp 1s ease-out .2s forwards; }
+    .subheadline { font-size: clamp(1.1rem, 3vw, 1.4rem); line-height: 1.6; color: #ccc; margin-bottom: 3rem; opacity: 0; animation: fadeInUp 1s ease-out .4s forwards; }
+    .price-highlight { color: #fff; font-weight: 600; }
+
+    /* Glass panel */
+    .glass-panel {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 2.5rem; margin-bottom: 3rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      opacity: 0; animation: fadeInUp 1s ease-out .6s forwards;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .glass-panel:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+    /* Mailchimp embed — restyled to match */
+    #mc_embed_signup { background: transparent; font: 14px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; width: 100%; color: #fff; }
+    #mc_embed_signup h2 { display:none; }
+    .indicates-required { display:none; }
+    .mc-field-group { display: flex; gap: 1rem; margin: 0 0 1rem 0; align-items: center; }
+    .mc-field-group label { display:none; }
+    #mce-EMAIL {
+      flex: 1; padding: 1rem 1.5rem; color:#fff; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; font-size: 1rem; transition: all .3s ease;
+    }
+    #mce-EMAIL::placeholder { color:#999; }
+    #mce-EMAIL:focus { outline: none; border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.12); box-shadow: 0 0 0 2px #fff2; }
+    #mc-embedded-subscribe {
+      padding: 1rem 2rem; background:#fff; color:#000; border: none; border-radius: 12px;
+      font-weight: 600; font-size: 1rem; cursor: pointer; transition: all .3s ease; white-space: nowrap;
+    }
+    #mc-embedded-subscribe:hover { background:#f0f0f0; transform: translateY(-1px); }
+    #mc-embedded-subscribe:active { transform: translateY(0); }
+    #mce-error-response, #mce-success-response { margin-top: .5rem; font-size: .95rem; }
+    #mce-error-response { color:#fca5a5; }
+    #mce-success-response { color:#4ade80; }
+
+    .fineprint { color:#9ca3af; font-size:.9rem; margin-top:.5rem; text-align:left; }
+
+    /* Progress + features */
+    .progress { margin-top: 1rem; }
+    .progress-item { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px solid rgba(255,255,255,0.1); font-size:.95rem; }
+    .progress-item:last-child { border-bottom:none; }
+    .progress-label { color:#999; font-weight:500; }
+    .progress-value { color:#fff; font-weight:600; }
+    .status-live { color:#4ade80; }
+    .features { margin-bottom: 2rem; opacity: 0; animation: fadeInUp 1s ease-out .8s forwards; }
+    .features-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap:1rem; list-style:none; font-size:.95rem; color:#ccc; }
+    .features-list li { display:flex; align-items:center; gap:.5rem; }
+    .features-list li::before { content:"•"; color:#666; font-weight:bold; }
+
+    .footer { font-size:.85rem; color:#666; opacity:0; animation: fadeIn 1s ease-out 1s forwards; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .glass-panel { padding: 2rem 1.5rem; }
+      .mc-field-group { flex-direction: column; align-items: stretch; }
+      #mc-embedded-subscribe { width: 100%; }
+      .features-list { grid-template-columns: 1fr; gap: .75rem; }
+      .progress-item { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    }
+    @media (max-width: 480px) { .glass-panel { padding: 1.5rem 1rem; border-radius: 16px; } }
+    @media (prefers-reduced-motion: reduce) { *{animation:none!important; transition:none!important;} }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <div class="container">
+    <div class="content" role="main">
+      <h1 class="headline">Novosta is coming.</h1>
+      <p class="subheadline">
+        A transparent, fairly priced mobile network for everyone.
+        <span class="price-highlight">$15/mo unlimited for early adopters.</span>
+      </p>
+
+      <div class="glass-panel" aria-live="polite">
+        <!-- MAILCHIMP EMBED (your endpoint + hidden fields) -->
+        <div id="mc_embed_signup">
+          <form action="https://dev.us19.list-manage.com/subscribe/post?u=d4979e2f9f0a77dddf570603b&amp;id=f82b0aa4f0&amp;f_id=00d4c2e1f0"
+                method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+              <div class="mc-field-group">
+                <label for="mce-EMAIL" class="sr-only">Email address</label>
+                <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"
+                       placeholder="Enter your email" required aria-label="Email address" autocomplete="email" inputmode="email">
+                <input type="submit" value="Join the Waitlist" name="subscribe" id="mc-embedded-subscribe" class="button" aria-label="Join the Novosta waitlist">
+              </div>
+
+              <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+              </div>
+
+              <!-- honeypot -->
+              <div aria-hidden="true" style="position:absolute; left:-5000px;">
+                <input type="text" name="b_d4979e2f9f0a77dddf570603b_f82b0aa4f0" tabindex="-1" value="">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <p class="fineprint">We’ll only email launch updates. Unsubscribe anytime.</p>
+
+        <div class="progress" aria-label="Project status">
+          <div class="progress-item">
+            <span class="progress-label">Current Stage:</span>
+            <span class="progress-value status-live">Early access testing live</span>
+          </div>
+          <div class="progress-item">
+            <span class="progress-label">Next:</span>
+            <span class="progress-value">Public launch after entity setup</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="features">
+        <ul class="features-list" aria-label="Key features">
+          <li>$15/mo unlimited plan*</li>
+          <li>eSIM + BYOD ready</li>
+          <li>No hidden fees</li>
+          <li>Local, independent operator</li>
+        </ul>
+      </div>
+
+      <footer class="footer">
+        *Fair-use applies. © <span id="year"></span> Novosta.
+      </footer>
+    </div>
+  </div>
+
+  <!-- Mailchimp validation script (required for inline success/error handling) -->
+  <script src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Hide default Mailchimp H2/labels from screen readers if present
+    const srOnly = document.createElement('style');
+    srOnly.innerHTML = ".sr-only{position:absolute!important;left:-9999px!important}";
+    document.head.appendChild(srOnly);
+  </script>
+</body>
 </html>
